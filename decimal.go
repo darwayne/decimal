@@ -907,6 +907,19 @@ func (d Decimal) Ceil() Decimal {
 	return Decimal{value: z, exp: 0}
 }
 
+
+// CeilPrec truncates and adds precision decimals to result
+//
+//
+// Example:
+//
+//     decimal.NewFromString("123.456").CeilPrec(2) // "123.46"
+//     decimal.NewFromString("123.450").CeilPrec(2) // "123.46"
+func (d Decimal) CeilPrec(precision int32) Decimal {
+	result := 1.0 / math.Pow(10.0, float64(precision))
+	return d.Truncate(precision).Add(NewFromFloat(result))
+}
+
 // Truncate truncates off digits from the number, without rounding.
 //
 // NOTE: precision is the last digit that will not be truncated (must be >= 0).
