@@ -2490,6 +2490,30 @@ func TestTan(t *testing.T) {
 	}
 }
 
+func TestPrecision(t *testing.T){
+	tests := []struct{
+		str string
+		expected int32
+	} {
+		{"0.00003", 5},
+		{"0", 0},
+		{"10.01", 2},
+	}
+
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf("with %s", tt.str), func(t *testing.T) {
+			val, err := NewFromString(tt.str)
+			if err != nil {
+				t.Error("unexpected error", err)
+			}
+
+			if val.Precision() != tt.expected {
+				t.Errorf("expected: %d, got %d", tt.expected, val.Precision())
+			}
+		})
+	}
+}
+
 func ExampleNewFromFloat32() {
 	fmt.Println(NewFromFloat32(123.123123123123).String())
 	fmt.Println(NewFromFloat32(.123123123123123).String())

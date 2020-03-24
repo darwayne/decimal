@@ -936,6 +936,20 @@ func (d Decimal) Truncate(precision int32) Decimal {
 	return d
 }
 
+// Precision returns the amount of decimal places being used
+//
+// Example:
+//
+//     decimal.NewFromString("123.456").Precision() // 3
+func (d Decimal) Precision() int32 {
+	arr := strings.Split(d.String(), ".")
+	if len(arr) < 2 {
+		return 0
+	}
+
+	return int32(len(arr[1]))
+}
+
 // UnmarshalJSON implements the json.Unmarshaler interface.
 func (d *Decimal) UnmarshalJSON(decimalBytes []byte) error {
 	if string(decimalBytes) == "null" {
